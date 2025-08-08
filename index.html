@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Cursos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+   <style>
+     @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+    </style>
+   <style>
+     @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+    </style>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+            font-family: "Lato", sans-serif;
+        }
+
+        .container-flex {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        hr{
+            margin: 1em 40px!important; 
+        }
+
+        .form-container {
+            width: 40%;
+        }
+
+        .preview-area {
+            width: 60%;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        .preview-page {
+            background: url(background.png) no-repeat;
+            background-size: cover;
+            /* background: white; */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 22px;
+            width: 50%;
+            aspect-ratio: 1 / 1.41;
+            /* proporção A5 */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+           height: 850px;
+        }
+
+        .course-item {
+            padding: 0px 22px;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+            font-size: 0.9rem;
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        .cut-line {
+            width: 1px;
+            background: #000;
+            height: 100%;
+            opacity: 0.5;
+            display: none;
+        }
+
+        @media print {
+            body * {
+                display: none;
+            }
+
+            .preview-area,
+            .preview-area *{
+                display: block !important;
+                visibility: visible;
+            }
+
+            .d2 span{
+                width: fit-content;
+            }
+
+            .d2, .d4{
+                display: flex!important;
+                width: 100vw;
+                vertical-align: middle;
+                gap: 3px;
+                align-items: center;
+            }
+
+            .d6{
+                display: flex!important;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            .d2-f{
+                display: flex!important;
+                gap: 3px;
+                align-items: center;
+                vertical-align: middle;
+            }
+
+         
+
+            .preview-area {
+                display: flex !important;
+                flex-direction: row;
+                width: 100vw;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            .preview-page {
+                width: 50%;
+                height: 100vh;
+                box-sizing: border-box;
+                padding: 20px;
+                border: none;
+                box-shadow: none;
+                overflow: hidden;
+            }
+
+            .cut-line {
+                display: block;
+                height: 100vh;
+            }
+        }
+    </style>
+
+    <style>
+
+        .d1{
+            text-shadow: 2px 2px #8578e5;
+            font-weight: bold;
+            font-size: 22px;
+            font-family: "Roboto", sans-serif;
+            color: #fff;
+        }
+
+        .d2-c{
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 4px;
+            border-radius: 4px;
+            background-color: red;
+            border:1px solid red;
+        }
+
+        .d2-d{
+            margin-left: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 4px;
+            border-radius: 4px;
+            background-color: black;
+        }
+
+        .d2-e{
+            margin-left: 10px;
+            color: black;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 4px;
+            border-radius: 4px;
+            border:1px solid black;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .d2-f{
+            vertical-align: middle;
+            margin-left: 10px;
+            color: black;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 4px;
+            border-radius: 4px;
+            border:1px solid black;
+        }
+
+        .d2-g{
+            margin-left: 10px;
+            color: black;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 4px;
+            border-radius: 4px;
+            border:1px solid black;
+        }
+
+        .d6{
+            font-size: 12px;
+            border-radius: 3px;
+            background-color: #ffffff12;
+            color: #fff;
+            padding: 3px;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .d4{
+            margin-top: 10px;
+            font-family: Roboto;
+        }
+
+        .d3{
+            text-align: justify;
+            margin-top: 5px;
+            font-size: 12px;
+            padding-left: 5px;
+            border-left: 3px solid red;
+            color: #d6d6d6;
+        }
+        
+
+    </style>
+</head>
+
+<body>
+
+    <h4 class="mb-4">Editor de Catálogo de Cursos</h4>
+
+    <div class="container-flex">
+        <div class="form-container">
+            <form id="formCurso">
+                <div class="mb-2">
+                    <label class="form-label">Curso</label>
+                    <input type="text" class="form-control form-control-sm" id="curso" required>
+                </div>
+                <div class="mb-2 row">
+                     <div class="col">
+                        <label class="form-label">Carga Horária</label>
+                        <input type="text" class="form-control form-control-sm" id="carga">
+                    </div>
+                     <div class="col">
+                        <label class="form-label">Idade</label>
+                        <input type="number" class="form-control form-control-sm" id="age">
+                    </div>
+                   
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Pré-requisito</label>
+                    <textarea class="form-control form-control-sm" id="pre" rows="2"></textarea>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Dias de Aula</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="Seg" id="seg">
+                        <label class="form-check-label" for="seg">Seg</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="Ter" id="ter">
+                        <label class="form-check-label" for="ter">Ter</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="Qua" id="qua">
+                        <label class="form-check-label" for="qua">Qua</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="Qui" id="qui">
+                        <label class="form-check-label" for="qui">Qui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="Sex" id="sex">
+                        <label class="form-check-label" for="sex">Sex</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="Sáb" id="sab">
+                        <label class="form-check-label" for="sab">Sáb</label>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <label class="form-label">Horário Início</label>
+                        <input type="time" class="form-control form-control-sm" id="horarioInicio">
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Horário Término</label>
+                        <input type="time" class="form-control form-control-sm" id="horarioFim">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col">
+                        <label class="form-label">Início</label>
+                        <input type="date" class="form-control form-control-sm" id="inicio">
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Término</label>
+                        <input type="date" class="form-control form-control-sm" id="termino">
+                    </div>
+                </div>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="gratuito">
+                    <label class="form-check-label" for="gratuito">Curso Gratuito</label>
+                </div>
+
+                <div id="investimentoGroup">
+                    <div class="mb-2">
+                        <label class="form-label">Investimento (R$)</label>
+                        <input type="text" class="form-control form-control-sm" id="investimento">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Parcelamento Cartão</label>
+                        <select class="form-select form-select-sm" id="parcelasCartao">
+                            <option value="">Selecione</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Parcelamento Boleto</label>
+                        <select class="form-select form-select-sm" id="parcelasBoleto">
+                            <option value="">Selecione</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-success btn-sm w-100 mb-2" type="submit">Adicionar Curso</button>
+                <button class="btn btn-outline-primary btn-sm w-100" type="button" onclick="window.print()">Imprimir
+                    Catálogo</button>
+            </form>
+        </div>
+
+        <div class="preview-area">
+            <div class="preview-page" id="page1">
+                <img width="400" src="logo.png" >
+            </div>
+
+            <div class="cut-line"></div>
+
+            <div class="preview-page" id="page2">
+                <img width="400" src="logo.png" >
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let originalInvestimento = 0
+        const form = document.getElementById('formCurso');
+        const gratuitoCheck = document.getElementById('gratuito');
+        const investimentoGroup = document.getElementById('investimentoGroup');
+        const investimentoInput = document.getElementById('investimento');
+
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+        const parcelasCartao = document.getElementById('parcelasCartao');
+        const parcelasBoleto = document.getElementById('parcelasBoleto');
+
+        for (let i = 1; i <= 24; i++) {
+            parcelasCartao.innerHTML += `<option value="${i}">Até ${i}x no cartão</option>`;
+            parcelasBoleto.innerHTML += `<option value="${i}">Até ${i}x no boleto</option>`;
+        }
+
+        gratuitoCheck.addEventListener('change', () => {
+            investimentoGroup.style.display = gratuitoCheck.checked ? 'none' : 'block';
+        });
+
+        investimentoInput.addEventListener('input', () => {
+            let v = investimentoInput.value.replace(/\D/g, '');
+            v = (parseFloat(v) / 100).toFixed(2);
+            investimentoInput.value = 'R$ ' + v.replace('.', ',');
+            originalInvestimento = v
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const curso = document.getElementById('curso').value;
+            const carga = document.getElementById('carga').value;
+            const age = document.getElementById('age').value;
+            const pre = document.getElementById('pre').value;
+            const horarioInicio = document.getElementById('horarioInicio').value;
+            const horarioFim = document.getElementById('horarioFim').value;
+            const inicio = document.getElementById('inicio').value;
+            const termino = document.getElementById('termino').value;
+            const gratuito = gratuitoCheck.checked;
+            const investimento = originalInvestimento;
+            let cartao = parcelasCartao.value;
+            let boleto = parcelasBoleto.value;
+
+            const diasSelecionados = Array.from(document.querySelectorAll('input[type=checkbox]:checked'))
+                .map(c => c.value).filter(v => v !== 'on').join(', ');
+
+            let investimentoTexto = gratuito ? 'Gratuito' : new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(investimento);
+
+            cartao += `x de ${ new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format((originalInvestimento / cartao)) } `
+            boleto += `x de ${ new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format((originalInvestimento / boleto)) } `
+
+            const partesIni = inicio.split("-"); 
+            const dtInicio = `${partesIni[2]}/${partesIni[1]}/${partesIni[0]}`;
+
+            const partesTer = termino.split("-"); 
+            const dtTermino = `${partesTer[2]}/${partesTer[1]}/${partesTer[0]}`;
+            
+            const itemHTML = `
+                <div class="course-item">
+                    <div class="d6" >Início: ${dtInicio} <i style="font-size: 4px;" class="bi bi-circle-fill"></i> Término: ${dtTermino} </div> 
+                    <div class="d1">${curso} (${carga}h)</div>
+                    <div class="d2"> <span class="d2-c"> ${age == 0 || !age ? "Livre"  : age + "+ anos"} </span> <span class="d2-e"> ${investimentoTexto} </span> ${cartao ? `<span class="d2-f"> ${cartao}x no cartão <i class="bi bi-credit-card"> </i>  </span>`: ""}  ${boleto ? `<span class="d2-g"> ${boleto}x no boleto </span>` : ""} </div> 
+                    <div class="d4"><i class="bi bi-calendar"></i> ${diasSelecionados} </div>
+                    <div class="d4"><i class="bi bi-stopwatch"></i> ${horarioInicio} às ${horarioFim}</div>
+                    <div class="d3">Pré-requisito: ${pre}</div> 
+                </div>
+                <hr>
+            `;
+
+            const item = document.createElement('div');
+            item.innerHTML = itemHTML;
+            page1.appendChild(item);
+            if (page1.scrollHeight > page1.clientHeight) {
+                page1.removeChild(item);
+                page2.appendChild(item);
+                if (page2.scrollHeight > page2.clientHeight) {
+                    page2.removeChild(item);
+                    alert("A folha está cheia. Remova alguns itens ou diminua o texto para que caiba na impressão.");
+                }
+            }
+
+            form.reset();
+            investimentoGroup.style.display = 'block';
+        });
+    </script>
+</body>
+
+</html>
